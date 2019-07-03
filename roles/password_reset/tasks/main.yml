@@ -29,6 +29,17 @@
   when: password_file.stat.exists == false
 
 
+- name: Check for specific database
+  command: mysql -e 'SHOW DATABASES;'
+  register: databases
+
+- debug:
+    msg: "database x still exists"
+  when: databases.stat.exists == true
+
+- debug:
+    msg: " database x is missing"
+  when: databases.stat.exists == false
 
   
 #- name: Check if you can login to database
