@@ -2,6 +2,8 @@
 
 # run to mark after password reset training
 
+##
+#
 - name: Check if database is running
   stat: path=/var/run/mysqld/mysqld.pid
   register: service_status
@@ -14,7 +16,7 @@
     msg: "mysql is dead"
   when: service_status.stat.exists == false
 
-
+##
 
 - name: Check if .my.cnf exists
   stat: path=/root/.my.cnf
@@ -28,18 +30,34 @@
     msg: ".my.cnf is missing"
   when: password_file.stat.exists == false
 
+##
 
 - name: Check for specific database
   command: mysql -e 'SHOW DATABASES;'
   register: databases
+  ignore_errors: True
+
+- debug:
+    var: databases.stdout_lines
+
+- debug:
+    var: databases.stderr_lines
+
 
 - debug:
     msg: "database x still exists"
   when: databases.stat.exists == true
+  ignore_errors: True
 
 - debug:
-    msg: " database x is missing"
+    msg: "database x is missing"
   when: databases.stat.exists == false
+  ignore_errors: True
+
+- debug:
+    msg: "unable to access database"
+  when: databases.stderr_lines == true
+  ignore_errors: True
 
   
 #- name: Check if you can login to database
