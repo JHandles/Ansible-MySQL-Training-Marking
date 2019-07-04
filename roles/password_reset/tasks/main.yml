@@ -38,36 +38,32 @@
 ##
 
 - name: Check for specific database
-  command: mysql -e 'SHOW DATABASES;'
+  command: mysql -e 'SHOW DATABASES like "employees";'
   register: databases
   ignore_errors: True
+  when: password_file.stat.exists == true
 
 - debug:
-    var: databases.stdout_lines
+    msg: "employees database still exists"
+  when: databases.stdout != ""
 
 - debug:
-    var: databases.stderr_lines
+    msg: "employees database is missing"
+  when: databases.stdout == ""
 
 
-- debug:
-    msg: "database x still exists"
-  when: databases.stat.exists == true
-  ignore_errors: True
 
-- debug:
-    msg: "database x is missing"
-  when: databases.stat.exists == false
-  ignore_errors: True
-
-- debug:
-    msg: "unable to access database"
-  when: databases.stderr_lines == true
-  ignore_errors: True
-
-  
 #- name: Check if you can login to database
 
 
 #- name: Check if database x still exists
 
 #- name: output marks
+
+
+#- debug:
+#    var: databases.stdout_lines
+#
+#- debug:
+#    var: databases.stderr_lines
+        
