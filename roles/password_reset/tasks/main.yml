@@ -4,17 +4,22 @@
 
 ##
 #
-- name: Check if database is running
+- name: Check if mysql is running
   stat: path=/var/run/mysqld/mysqld.pid
-  register: service_status
+  register: service_status_mysql
+
+- name: Check if mariadb is running
+  stat: path=/var/run/mariadb/mariadb.pid
+  register: service_status_mariadb
+
 
 - debug:
-    msg: "mysql is running"
-  when: service_status.stat.exists == true
+    msg: "database is running"
+  when: (service_status_mysql.stat.exists == true) or (service_status_mariadb.stat.exists == true) 
 
 - debug:
-    msg: "mysql is dead"
-  when: service_status.stat.exists == false
+    msg: "database is MIA brown bread dead lost its head"
+  when: (service_status_mysql.stat.exists == false) and (service_status_mariadb.stat.exists == false)
 
 ##
 
