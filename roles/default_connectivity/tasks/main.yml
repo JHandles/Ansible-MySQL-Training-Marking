@@ -1,8 +1,8 @@
 ---
 
-# run to mark after password reset training
-
-##
+# run to check basic database connectivity 
+#
+# 
 #
 - name: Check if mysql is running
   stat: path=/var/run/mysqld/mysqld.pid
@@ -50,7 +50,6 @@
 - debug:
     msg: "employees database is missing"
   when: databases.stdout == ""
-
 
 
 #- name: Check if you can login to database

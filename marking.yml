@@ -7,5 +7,5 @@
     - defaults.yml
 
   roles:
-    - password_reset
-#    -replicatoin 
+    - default_connectivity
+    - replication 
