@@ -1,0 +1,26 @@
+---
+
+
+#- name: Include specific training modules variable
+#  include_vars: "{{training_module}}.yml"
+#  #  when: (training_module == true)
+
+
+# password_reset training
+
+- name: includes for marking_password_reset training
+  include: marking_password_reset.yml
+  when: (password_reset == "yes") 
+
+# replication training
+
+- name: includes for marking_replication training
+  include: marking_replication.yml
+  when: (replication == "yes")
+
+# slow query analysis
+
+- name: includes for marking_query_analysis training
+  include: marking_query_analysis.yml
+  when: (query_analysis == "yes")
+

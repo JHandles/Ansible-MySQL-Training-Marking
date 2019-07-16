@@ -8,4 +8,4 @@
 
   roles:
     - default_connectivity
-    - replication 
+    - module_specifc 
